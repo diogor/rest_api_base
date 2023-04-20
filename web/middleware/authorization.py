@@ -1,6 +1,10 @@
 from starlette.middleware.authentication import AuthenticationMiddleware
 from starlette.requests import HTTPConnection
-from starlette.authentication import AuthenticationBackend, AuthCredentials, AuthenticationError
+from starlette.authentication import (
+    AuthenticationBackend,
+    AuthCredentials,
+    AuthenticationError,
+)
 from fastapi import status
 from fastapi.responses import JSONResponse, Response
 from services.authentication import check_user_token
@@ -21,6 +25,9 @@ class BasicAuthBackend(AuthenticationBackend):
     async def authenticate(self, request):
         method = request.scope.get("method")
         path = request.scope.get("path")
+
+        if path in ["/docs", "/redoc", "/openapi.json"]:
+            return
 
         if method == "POST" and path in [
             "/auth/register",
