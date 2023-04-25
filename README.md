@@ -1,23 +1,23 @@
-## REST Api Base
+# REST Api Base
 
-# Features
+## Features
 - ORM (sqlmodel)
 - Migrations (alembic)
 - Authentication (JWT)
 
-# Requirements
+## Requirements
 - Poetry (https://python-poetry.org/)
 - Make (optional)
 
-# Setup
+## Setup
 - Copy `.env.example` -> `.env` and edit according to your needs
 - Run `poetry install`
 
-# Migrations
+## Migrations
 - Update your database: `make migrate` or `poetry run alembic upgrade head`
 
-# Start development server
+## Start development server
 - `make start` or `poetry run uvicorn web.main:app --reload`
 
-# Documentation
+## Documentation
 Go to `/docs` to access swagger auto-generated docs.
