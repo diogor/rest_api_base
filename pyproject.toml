@@ -20,6 +20,7 @@ redis = "^4.4.0"
 twilio = "^7.16.0"
 phonenumbers = "^8.13.3"
 sentry-sdk = {extras = ["fastapi"], version = "^1.12.1"}
+alembic = "^1.10.4"
 
 
 [tool.poetry.group.dev.dependencies]
