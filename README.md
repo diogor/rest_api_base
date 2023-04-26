@@ -15,6 +15,7 @@
 
 ## Migrations
 - Update your database: `make migrate` or `poetry run alembic upgrade head`
+- Create new migration: `make migration name="migration name"`
 
 ## Start development server
 - `make start` or `poetry run uvicorn web.main:app --reload`
