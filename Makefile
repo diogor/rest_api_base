@@ -5,7 +5,7 @@ migrate:
 	poetry run alembic upgrade head
 
 migration:
-	poetry run alembic revision -m "$(name)"
+	poetry run alembic revision --autogenerate -m "$(name)"
 
 start:
 	poetry run uvicorn web.main:app --reload
