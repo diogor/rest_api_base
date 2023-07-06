@@ -5,7 +5,6 @@ from .auth import User
 __all__ = ["User"]
 
 engine = create_engine(DATABASE_URL)
-SQLModel.metadata.create_all(engine)
 
 
 def commit(object: SQLModel):
