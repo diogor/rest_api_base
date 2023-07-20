@@ -11,6 +11,7 @@ from services.authentication import check_user_token
 from exceptions.business import (
     AuthenticationError as BusinessAuthenticationError,
 )
+from config import settings
 
 
 class CustomAuthMiddleware(AuthenticationMiddleware):
@@ -23,17 +24,12 @@ class CustomAuthMiddleware(AuthenticationMiddleware):
 
 class BasicAuthBackend(AuthenticationBackend):
     async def authenticate(self, request):
-        method = request.scope.get("method")
         path = request.scope.get("path")
 
         if path in ["/docs", "/redoc", "/openapi.json"]:
             return
 
-        if method == "POST" and path in [
-            "/auth/register",
-            "/auth/login",
-            "/auth/activate",
-        ]:
+        if path in settings.PUBLIC_ROUTES:
             return
 
         if "Authorization" not in request.headers:
