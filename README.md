@@ -9,7 +9,7 @@
 - Poetry (https://python-poetry.org/)
 - Make (optional)
 
-## Setup
+## Setup and install
 - Copy `.env.example` -> `.env` and edit according to your needs
 - Run `poetry install`
 
