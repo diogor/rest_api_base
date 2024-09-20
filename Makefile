@@ -8,4 +8,4 @@ migration:
 	poetry run alembic revision --autogenerate -m "$(name)"
 
 start:
-	poetry run uvicorn web.main:app --reload
+	poetry run granian --interface asgi web.main:app --reload

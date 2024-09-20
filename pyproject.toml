@@ -4,7 +4,6 @@ version = "0.1.0"
 description = ""
 authors = ["Diogo Lima"]
 readme = "README.md"
-packages = [{include = "rest_api_base"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -13,7 +12,6 @@ environs = "^9.5.0"
 pydantic = "^1.10.2"
 bcrypt = "^4.0.1"
 fastapi = "^0.87.0"
-uvicorn = "^0.20.0"
 pyjwt = "^2.6.0"
 psycopg2 = "^2.9.5"
 redis = "^4.4.0"
@@ -21,6 +19,7 @@ twilio = "^7.16.0"
 phonenumbers = "^8.13.3"
 sentry-sdk = {extras = ["fastapi"], version = "^1.12.1"}
 alembic = "^1.10.4"
+granian = {extras = ["reload"], version = "^1.6.0"}
 
 
 [tool.poetry.group.dev.dependencies]
