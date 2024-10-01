@@ -17,6 +17,7 @@ sentry-sdk = {extras = ["fastapi"], version = "^1.12.1"}
 alembic = "^1.10.4"
 granian = {extras = ["reload"], version = "^1.6.0"}
 fastapi-oauth2 = "^1.2.0"
+uvicorn = "^0.31.0"
 
 
 [tool.poetry.group.dev.dependencies]
