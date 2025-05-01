@@ -5,7 +5,10 @@ from fastapi_oauth2.config import OAuth2Config, OAuth2Client
 from fastapi_oauth2.router import router as oauth2_router
 from fastapi_oauth2.security import OAuth2
 from social_core.backends import open_id_connect
-from config.settings import SENTRY_DSN, JWT_SECRET, JWT_ALGORITHM, JWT_EXPIRES, OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OIDC_ENDPOINT
+from config.settings import (
+    SENTRY_DSN, JWT_SECRET, JWT_ALGORITHM,
+    JWT_EXPIRES, OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_OIDC_ENDPOINT
+)
 
 
 sentry_sdk.init(
@@ -23,7 +26,7 @@ async def on_auth(auth: Auth, user: User):
 oauth2 = OAuth2()
 
 class OIDConnect(open_id_connect.OpenIdConnectAuth):
-    OIDC_ENDPOINT = OIDC_ENDPOINT
+    OIDC_ENDPOINT = OAUTH_OIDC_ENDPOINT
 
 
 oauth_config = OAuth2Config(
