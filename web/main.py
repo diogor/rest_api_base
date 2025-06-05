@@ -1,54 +1,18 @@
-import sentry_sdk
-from fastapi import Depends, FastAPI, Request
-from fastapi_oauth2.middleware import OAuth2Middleware, Auth, User
-from fastapi_oauth2.config import OAuth2Config, OAuth2Client
-from fastapi_oauth2.router import router as oauth2_router
-from fastapi_oauth2.security import OAuth2
-from social_core.backends import open_id_connect
-from config.settings import (
-    SENTRY_DSN, JWT_SECRET, JWT_ALGORITHM,
-    JWT_EXPIRES, OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_OIDC_ENDPOINT
-)
-
-
-sentry_sdk.init(
-    dsn=SENTRY_DSN,
-    # Set traces_sample_rate to 1.0 to capture 100%
-    # of transactions for performance monitoring.
-    # We recommend adjusting this value in production,
-    traces_sample_rate=1.0,
-)
-
-
-async def on_auth(auth: Auth, user: User):
-    ...
-
-oauth2 = OAuth2()
-
-class OIDConnect(open_id_connect.OpenIdConnectAuth):
-    OIDC_ENDPOINT = OAUTH_OIDC_ENDPOINT
-
-
-oauth_config = OAuth2Config(
-    allow_http=True,
-    jwt_secret=JWT_SECRET,
-    jwt_expires=JWT_EXPIRES,
-    jwt_algorithm=JWT_ALGORITHM,
-    clients=[
-        OAuth2Client(
-            backend=OIDConnect,
-            client_id=OAUTH_CLIENT_ID,
-            client_secret=OAUTH_CLIENT_SECRET,
-        )
-    ]
-)
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+from exceptions.business import BaseException
+from web.router import auth_router, base_router
 
 app = FastAPI()
-app.add_middleware(OAuth2Middleware, config=oauth_config, callback=on_auth)
-app.include_router(oauth2_router)
 
 
-@app.get("/")
-async def index(request: Request,  _: str = Depends(oauth2)):
-    return {"user": request.user}
+@app.exception_handler(BaseException)
+async def exception_handler(_: Request, exc: BaseException):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"error": exc.message, "code": exc.code},
+    )
 
+
+app.include_router(auth_router)
+app.include_router(base_router)

@@ -1,10 +1,10 @@
 from sqlmodel import SQLModel, create_engine, Session
-from config.settings import DATABASE_URL
+from config.settings import get_settings
 from .auth import User
 
 __all__ = ["User"]
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(get_settings().database_url)
 
 
 def commit(object: SQLModel):

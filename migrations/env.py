@@ -3,11 +3,7 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool
 
 from alembic import context
-
-from environs import Env
-
-env = Env()
-env.read_env()
+from config.settings import get_settings
 
 from sqlmodel import SQLModel
 
@@ -16,12 +12,13 @@ config = context.config
 # Model / Schema imports
 from models import *
 
-config.set_main_option("sqlalchemy.url", env.str("DATABASE_URL"))
+config.set_main_option("sqlalchemy.url", get_settings().database_url)
 
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 target_metadata = SQLModel.metadata
+
 
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.
@@ -62,11 +59,11 @@ def run_migrations_online() -> None:
 
     with connectable.connect() as connection:
         context.configure(
-                    connection=connection,
-                    target_metadata=target_metadata,
-                    render_as_batch=True,
-                    user_module_prefix='sqlmodel.sql.sqltypes.',
-                )
+            connection=connection,
+            target_metadata=target_metadata,
+            render_as_batch=True,
+            user_module_prefix="sqlmodel.sql.sqltypes.",
+        )
 
         with context.begin_transaction():
             context.run_migrations()

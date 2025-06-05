@@ -19,7 +19,13 @@
 ## Migrations
 
 - Update your database: `make migrate` or `poetry run alembic upgrade head`
-- Create new migration: `make migration name="migration name"`
+- Create new migration:
+  - Create or edit your models at `models/`
+    - If you are creating a new model, make sure to add it to `models/__init__.py`
+  - `make migration name="migration name"` or `poetry run alembic revision --autogenerate -m "migration name"`
+    - This will create a new migration file in `migrations/versions/`
+  - Review the generated migration file and make any necessary adjustments
+- Apply migrations: `make migrate` or `poetry run alembic upgrade head`
 
 ## Start development server
 

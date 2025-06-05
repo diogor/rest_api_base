@@ -1,13 +1,19 @@
-from environs import Env
+from functools import lru_cache
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
-env = Env()
-env.read_env()
 
-DATABASE_URL = env.str("DATABASE_URL")
-JWT_SECRET = env.str("JWT_SECRET")
-JWT_ALGORITHM = env.str("JWT_ALGORITHM", "HS256")
-JWT_EXPIRES = env.int("JWT_EXPIRES", 900)
-SENTRY_DSN = env.str("SENTRY_DSN")
-OAUTH_CLIENT_ID = env.str("OAUTH_CLIENT_ID")
-OAUTH_CLIENT_SECRET = env.str("OAUTH_CLIENT_SECRET")
-OAUTH_OIDC_ENDPOINT = env.str("OIDC_ENDPOINT")
+class Settings(BaseSettings):
+    database_url: str
+    jwt_secret: str
+    jwt_algorithm: str = "HS256"
+    jwt_expiration_minutes: int = 15
+    oauth_client_id: str
+    oauth_client_secret: str
+    oauth_oidc_endpoint: str
+
+    model_config = SettingsConfigDict(env_file=".env")
+
+
+@lru_cache
+def get_settings() -> Settings:
+    return Settings()
