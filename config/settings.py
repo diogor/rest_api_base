@@ -7,9 +7,6 @@ class Settings(BaseSettings):
     jwt_secret: str
     jwt_algorithm: str = "HS256"
     jwt_expiration_minutes: int = 15
-    oauth_client_id: str
-    oauth_client_secret: str
-    oauth_oidc_endpoint: str
 
     model_config = SettingsConfigDict(env_file=".env")
 
